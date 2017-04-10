@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="prophet_src"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/hulan/courcework/prophet-src/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/hulan/courcework/prophet-src/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/hulan/courcework/prophet-src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/hulan/courcework/prophet-src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/hulan/courcework/prophet-src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/Users/hulan/courcework/prophet-src/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/hulan/courcework/prophet-src/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/hulan/courcework/prophet-src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/hulan/courcework/prophet-src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/hulan/courcework/prophet-src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/Users/hulan/courcework/prophet-src/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/hulan/courcework/prophet-src/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/hulan/courcework/prophet-src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/hulan/courcework/prophet-src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/hulan/courcework/prophet-src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="prophet_src">
+				<Option output="/Users/hulan/courcework/prophet-src/cmake-build-debug/prophet_src" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/hulan/courcework/prophet-src/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../lib/clang/7.3.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/hulan/courcework/prophet-src/cmake-build-debug/Makefile&quot;  VERBOSE=1 prophet_src"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/hulan/courcework/prophet-src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/hulan/courcework/prophet-src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/hulan/courcework/prophet-src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="prophet_src/fast">
+				<Option output="/Users/hulan/courcework/prophet-src/cmake-build-debug/prophet_src" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/hulan/courcework/prophet-src/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../lib/clang/7.3.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/hulan/courcework/prophet-src/cmake-build-debug/Makefile&quot;  VERBOSE=1 prophet_src/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/hulan/courcework/prophet-src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/hulan/courcework/prophet-src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/hulan/courcework/prophet-src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/hulan/courcework/prophet-src/ASTDiffer.cpp">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/ASTDiffer.h">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/ASTDifferTest.cpp">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/ASTUtils.cpp">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/ASTUtils.h">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/BenchProgram.cpp">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/BenchProgram.h">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/CodeRewrite.cpp">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/CodeRewrite.h">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/ConfigFile.h">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/DuplicateDetector.cpp">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/DuplicateDetector.h">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/ErrorLocalizer.cpp">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/ErrorLocalizer.h">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/ExprSynthesizer.cpp">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/ExprSynthesizer.h">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/FeatureExtract.cpp">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/FeatureParameter.h">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/FeatureVector.h">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/GlobalAnalyzer.cpp">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/GlobalAnalyzer.h">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/LocalAnalyzer.cpp">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/LocalAnalyzer.h">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/Main.cpp">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/PlayGround.cpp">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/ProfileErrorLocalizer.cpp">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/ProfileErrorLocalizer.h">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/ProfilerAction.cpp">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/RepairCandidateGenerator.cpp">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/RepairCandidateGenerator.h">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/RepairSearchEngine.cpp">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/RepairSearchEngine.h">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/SourceContextManager.cpp">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/SourceContextManager.h">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/Utils.cpp">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/Utils.h">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/_prophet_profile.cpp">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/_prophet_profile.h">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/_test_runtime.cpp">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/config.h">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/learner.cpp">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/pdiffer.cpp">
+			<Option target="prophet_src"/>
+		</Unit>
+		<Unit filename="/Users/hulan/courcework/prophet-src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
