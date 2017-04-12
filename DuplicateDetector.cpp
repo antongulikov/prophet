@@ -39,8 +39,8 @@ static inline StringMatchResTy matchTwo(const std::string &s1, const std::string
         memset(d[i], 0, (s2_size) * sizeof(long));
     }
 
-    for (size_t i = 1; i <= s1.size(); i++)
-        for (size_t j = 1; j <= s2.size(); j++) {
+    for (size_t i = 1; i < s1_size; i++)
+        for (size_t j = 1; j < s2_size; j++) {
             f[i][j] = f[i-1][j];
             if (s1[i-1] == ' ')
                 f[i][j]++;
@@ -58,8 +58,8 @@ static inline StringMatchResTy matchTwo(const std::string &s1, const std::string
 
     StringMatchResTy res;
     res.clear();
-    size_t i = s1.size();
-    size_t j = s2.size();
+    int i = s1_size - 1;
+    int j = s2_size - 1;
     while ((i != 0) && (j != 0)) {
         if (d[i][j] == 2) {
             res.insert(std::make_pair(i - 1, j - 1));
@@ -71,9 +71,9 @@ static inline StringMatchResTy matchTwo(const std::string &s1, const std::string
             i --;
     }
 
-    for (size_t i = 0; i < s1_size; i++) {
-        delete f[i];
-        delete d[i];
+    for (int id = 0; id < s1_size; id++) {
+        delete f[id];
+        delete d[id];
     }
     delete f;
     delete d;
@@ -149,7 +149,7 @@ static size_t scanNLine(const std::string &code, size_t my_start, size_t n) {
     while (my_end < code.size()) {
         if (code[my_end] == '\n')
             cnt++;
-        my_end++;
+        my_end ++;
         if (cnt == n) break;
     }
     return my_end;
