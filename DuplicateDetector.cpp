@@ -28,8 +28,8 @@ typedef std::map<size_t, size_t> StringMatchResTy;
 static inline StringMatchResTy matchTwo(const std::string &s1, const std::string &s2) {
     long **f;
     long **d;
-    const int s1_size = (int)s1.size() + 1;
-    const int s2_size = (int)s2.size() + 1;
+    const size_t s1_size = s1.size() + 1;
+    const size_t s2_size = s2.size() + 1;
     f = new long*[s1_size];
     d = new long*[s1_size];
     for (size_t i = 0; i < s1_size; i++) {
@@ -41,37 +41,37 @@ static inline StringMatchResTy matchTwo(const std::string &s1, const std::string
 
     for (size_t i = 1; i < s1_size; i++)
         for (size_t j = 1; j < s2_size; j++) {
-            f[i][j] = f[i-1][j];
-            if (s1[i-1] == ' ')
+            f[i][j] = f[i - 1][j];
+            if (s1[i - 1] == ' ')
                 f[i][j]++;
             d[i][j] = 0;
-            if (f[i][j-1] > f[i][j]) {
-                f[i][j] = f[i][j-1];
+            if (f[i][j - 1] > f[i][j]) {
+                f[i][j] = f[i][j - 1];
                 d[i][j] = 1;
             }
-            if (s1[i-1] == s2[j-1])
-                if (f[i-1][j-1] + 1 > f[i][j]) {
-                    f[i][j] = f[i-1][j-1] + 1;
+            if (s1[i-1] == s2[j - 1])
+                if (f[i - 1][j - 1] + 1 > f[i][j]) {
+                    f[i][j] = f[i - 1][j - 1] + 1;
                     d[i][j] = 2;
                 }
         }
 
     StringMatchResTy res;
     res.clear();
-    int i = s1_size - 1;
-    int j = s2_size - 1;
+    size_t i = s1_size - 1;
+    size_t j = s2_size - 1;
     while ((i != 0) && (j != 0)) {
         if (d[i][j] == 2) {
             res.insert(std::make_pair(i - 1, j - 1));
-            i --; j --;
+            i--; j--;
         }
         else if (d[i][j] == 1)
-            j --;
+            j--;
         else
-            i --;
+            i--;
     }
 
-    for (int id = 0; id < s1_size; id++) {
+    for (size_t id = 0; id < s1_size; id++) {
         delete f[id];
         delete d[id];
     }
