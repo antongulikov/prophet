@@ -373,26 +373,40 @@ LocalAnalyzer::ExprListTy LocalAnalyzer::genExprAtoms(QualType QT, bool allow_lo
     // Now only consider 0
     if (allow_const && !lvalue && !QT.isNull()) {
         // FIXME: for now we don't handle boolean
-        if (QT->isIntegerType() && !QT->isBooleanType()) {
-            if (naive) {
-                // We are going to try 0, -1
-                IntegerLiteral *IL0 = getNewIntegerLiteral(ctxt, 0);
+        if (QT->isIntegerType()) {
+            if (QT->isBooleanType()) {
+                IntegerLiteral *ILfalse = getNewIntegerLiteral(ctxt, 0);
                 ImplicitCastExpr *ICE = ImplicitCastExpr::Create(*ctxt, QT, CK_NullToPointer,
-                        IL0, 0, VK_RValue);
+                                                                 ILfalse, 0, VK_RValue);
                 ret.push_back(ICE);
-                IntegerLiteral *IL1 = getNewIntegerLiteral(ctxt, -1);
-                ImplicitCastExpr *ICE1 = ImplicitCastExpr::Create(*ctxt, QT, CK_NullToPointer,
-                        IL1, 0, VK_RValue);
-                ret.push_back(ICE1);
-            }
-            else {
-                for (std::set<long long>::iterator it = IntegerConstants.begin();
-                        it != IntegerConstants.end(); ++it) {
-                    IntegerLiteral *IL = getNewIntegerLiteral(ctxt, *it);
-                    // FIXME: Add explicit cast if we want to handle boolean
-                    ImplicitCastExpr *ICE = ImplicitCastExpr::Create(*ctxt, QT, CK_IntegralCast,
-                            IL, 0, VK_RValue);
+                IntegerLiteral *ILTrue = getNewIntegerLiteral(ctxt, 1);
+                ImplicitCastExpr *ICE2 = ImplicitCastExpr::Create(*ctxt, QT, CK_NullToPointer,
+                                                                  ILTrue, 0, VK_RValue);
+                ret.push_back(ICE2);
+            } else {
+                if (naive) {
+                    // We are going to try 0, -1, 1
+                    IntegerLiteral *IL0 = getNewIntegerLiteral(ctxt, 0);
+                    ImplicitCastExpr *ICE = ImplicitCastExpr::Create(*ctxt, QT, CK_NullToPointer,
+                                                                     IL0, 0, VK_RValue);
                     ret.push_back(ICE);
+                    IntegerLiteral *IL1 = getNewIntegerLiteral(ctxt, -1);
+                    ImplicitCastExpr *ICE1 = ImplicitCastExpr::Create(*ctxt, QT, CK_NullToPointer,
+                                                                      IL1, 0, VK_RValue);
+                    ret.push_back(ICE1);
+                    IntegerLiteral *ILR1 = getNewIntegerLiteral(ctxt, 1);
+                    ImplicitCastExpr *ICE2 = ImplicitCastExpr::Create(*ctxt, QT, CK_NullToPointer,
+                                                                      ILR1, 0, VK_RValue);
+                    ret.push_back(ICE2);
+                } else {
+                    for (std::set<long long>::iterator it = IntegerConstants.begin();
+                         it != IntegerConstants.end(); ++it) {
+                        IntegerLiteral *IL = getNewIntegerLiteral(ctxt, *it);
+                        // FIXME: Add explicit cast if we want to handle boolean
+                        ImplicitCastExpr *ICE = ImplicitCastExpr::Create(*ctxt, QT, CK_IntegralCast,
+                                                                         IL, 0, VK_RValue);
+                        ret.push_back(ICE);
+                    }
                 }
             }
         }

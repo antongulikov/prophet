@@ -2249,7 +2249,7 @@ bool ExprSynthesizer::workUntil(size_t candidate_limit, size_t time_limit,
         cache->addCandidate(candidate.toString(M));
 
         // increase tested candidate cnt
-        tested_cnt ++;
+        tested_cnt++;
 
         // save candidate scheme number
         candidate_to_id[candidate.toString(M)] = cnt;

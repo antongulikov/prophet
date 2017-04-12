@@ -187,7 +187,7 @@ double compute_b_score(const std::vector<double> &b, size_t k) {
     if (res == 0) {
         return 0;
     } else {
-        return 1 / res;
+        return 1.0 / res;
     }
 }
 

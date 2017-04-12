@@ -733,7 +733,7 @@ Stmt* StmtReplacer::getResult() {
     return impl->getResult();
 }
 
-IntegerLiteral* getNewIntegerLiteral(ASTContext *ctxt, uint64_t v) {
+IntegerLiteral* getNewIntegerLiteral(ASTContext *ctxt, int64_t v) {
     return IntegerLiteral::Create(*ctxt, llvm::APInt(32, v), ctxt->IntTy, clang::SourceLocation());
 }
 

@@ -28,13 +28,15 @@ typedef std::map<size_t, size_t> StringMatchResTy;
 static inline StringMatchResTy matchTwo(const std::string &s1, const std::string &s2) {
     long **f;
     long **d;
-    f = new long*[s1.size() + 10];
-    d = new long*[s1.size() + 10];
-    for (size_t i = 0; i < s1.size() + 10; i++) {
-        f[i] = new long[s2.size() + 10];
-        d[i] = new long[s2.size() + 10];
-        memset(f[i], 0, (s2.size() + 10) * sizeof(long));
-        memset(d[i], 0, (s2.size() + 10) * sizeof(long));
+    const int s1_size = (int)s1.size() + 1;
+    const int s2_size = (int)s2.size() + 1;
+    f = new long*[s1_size];
+    d = new long*[s1_size];
+    for (size_t i = 0; i < s1_size; i++) {
+        f[i] = new long[s2_size];
+        d[i] = new long[s2_size];
+        memset(f[i], 0, (s2_size) * sizeof(long));
+        memset(d[i], 0, (s2_size) * sizeof(long));
     }
 
     for (size_t i = 1; i <= s1.size(); i++)
@@ -69,7 +71,7 @@ static inline StringMatchResTy matchTwo(const std::string &s1, const std::string
             i --;
     }
 
-    for (size_t i = 0; i < s1.size() + 10; i++) {
+    for (size_t i = 0; i < s1_size; i++) {
         delete f[i];
         delete d[i];
     }
@@ -146,8 +148,8 @@ static size_t scanNLine(const std::string &code, size_t my_start, size_t n) {
     size_t cnt = 0;
     while (my_end < code.size()) {
         if (code[my_end] == '\n')
-            cnt ++;
-        my_end ++;
+            cnt++;
+        my_end++;
         if (cnt == n) break;
     }
     return my_end;

@@ -50,7 +50,8 @@ class AtomReplaceVisitor : public RecursiveASTVisitor<AtomReplaceVisitor> {
         ExprListTy ret;
         ret.clear();
         ExprListTy vars = L->getCandidateLocalVars(clang::QualType());
-        const BinaryOperatorKind op_kind[5] = {BO_Add, BO_Sub, BO_Mul, BO_EQ, BO_NE};
+        const int op_kind_size = 5;
+        const BinaryOperatorKind op_kind[op_kind_size] = {BO_Add, BO_Sub, BO_Mul, BO_EQ, BO_NE};
         for (size_t i = 0; i < vars.size(); i++) {
             Expr* Ei = vars[i];
             if (QT->isIntegerType()) {
@@ -69,7 +70,7 @@ class AtomReplaceVisitor : public RecursiveASTVisitor<AtomReplaceVisitor> {
                     if (Ei->getType()->isPointerType())
                         if (!typeMatch(Ei->getType(), Ej->getType()))
                             continue;
-                    for (size_t k = 0; k < 5; k++) {
+                    for (size_t k = 0; k < op_kind_size; k++) {
                         if (i > j)
                             if (k != 2)
                                 continue;
@@ -82,7 +83,7 @@ class AtomReplaceVisitor : public RecursiveASTVisitor<AtomReplaceVisitor> {
                         ret.push_back(BO);
                     }
                 }
-                for (size_t k = 0; k < 5; k++) {
+                for (size_t k = 0; k < op_kind_size; k++) {
                     BinaryOperator *BO;
                     if ((k < 3) && (!Ei->getType()->isIntegerType()))
                         continue;

@@ -600,7 +600,7 @@ BenchProgram::TestCaseSetTy BenchProgram::testSet(const std::string &subDir,
  */
 bool BenchProgram::test(const std::string &subDir, size_t id, const EnvMapTy &envMap,
         bool pass_basic_src_dir) {
-    test_cnt ++;
+    test_cnt++;
     TestCaseSetTy tmp;
     tmp.clear();
     tmp.insert(id);

@@ -128,7 +128,7 @@ clang::CompoundStmt* wrapStmtWithCompoundStmt(clang::ASTContext &C, clang::Stmt*
 
 bool isSimpleExpr(clang::Expr *);
 
-clang::IntegerLiteral *getNewIntegerLiteral(clang::ASTContext *ctxt, uint64_t v);
+clang::IntegerLiteral *getNewIntegerLiteral(clang::ASTContext *ctxt, int64_t v);
 
 clang::Expr* getParenExpr(clang::ASTContext *ctxt, clang::Expr *E);
 
