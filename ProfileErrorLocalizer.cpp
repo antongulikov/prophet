@@ -414,7 +414,6 @@ ProfileErrorLocalizer::ProfileErrorLocalizer(BenchProgram &P,
     outlog_printf(1, "negs: %lf poss: %lf\n", negs, poss);
 
     /* Get result. */
-    candidateResults.clear();
     while (Q.size() > 0) {
         ResRecordTy tmp;
         tmp.score = Q.top().first;
@@ -422,7 +421,16 @@ ProfileErrorLocalizer::ProfileErrorLocalizer(BenchProgram &P,
         tmp.pid = Q.top().second.second;
 
         if (tmp.score > TRASHOLD) {
-            candidateResults.push_back(tmp);
+            bool exists = false;
+            for (size_t i = 0; i < candidateResults.size(); ++i) {
+                if (candidateResults.at(i) == tmp) {
+                    exists = true;
+                    break;
+                }
+            }
+            if (!exists) {
+                candidateResults.push_back(tmp);
+            }
         }
 
         /* Delet. */

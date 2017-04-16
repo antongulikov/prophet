@@ -59,6 +59,10 @@ class ProfileErrorLocalizer : public ErrorLocalizer {
         double score;
         SourcePositionTy loc;
         std::string pid;
+
+        bool operator ==(const ResRecordTy& other) const {
+            return pid == other.pid;
+        }
     };
 
     std::vector<ResRecordTy> candidateResults;

@@ -61,6 +61,10 @@ struct SourcePositionTy {
             return spellColumn < a.spellColumn;
     }
 
+    bool operator == (const SourcePositionTy& other) const {
+        return toString() == other.toString();
+    }
+
     std::string toString() const {
         std::ostringstream sout;
         sout << expFilename << " " << expLine << " " << expColumn << " "
