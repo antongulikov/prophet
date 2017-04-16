@@ -259,7 +259,20 @@ public:
                 resRExpr[S] = std::make_pair(RHS, newE);
             }
         }
-        return TraverseStmt(RHS);
+        bool temp_ret = TraverseStmt(RHS);
+        Expr *LHS = n->getLHS();
+        QT = LHS->getType();
+        exprs = L->getCandidateLValueExprWithType(QT);
+        if (exprs.size() != 0) {
+            for (size_t i = 0; i < exprs.size(); ++i) {
+                StmtReplacer R(ctxt, start_stmt);
+                R.addRule(LHS, exprs[i]);
+                Stmt *newS = R.getResult();
+                res.insert(newS);
+                resRExpr[newS] = std::make_pair(LHS, exprs[i]);
+            }
+        }
+        return tmp_ret || TraverseStmt(LHS);
     }
 
     virtual std::set<Stmt*> getResult() {

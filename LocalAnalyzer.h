@@ -100,6 +100,10 @@ public:
         return genExprAtoms(clang::QualType(), true, true, true, false, true);
     }
 
+    ExprListTy getCandidateLValueExprWithType(clang::QualType QT) {
+        return genExprAtoms(QT, true, true, false, false, true);
+    }
+
     ExprListTy getCandidateReturnExpr() {
         return genExprAtoms(curFunc->getCallResultType(), false, false, false, true);
     }
