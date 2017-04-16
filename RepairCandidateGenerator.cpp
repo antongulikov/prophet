@@ -272,7 +272,7 @@ public:
                 resRExpr[newS] = std::make_pair(LHS, exprs[i]);
             }
         }
-        return tmp_ret || TraverseStmt(LHS);
+        return temp_ret || TraverseStmt(LHS);
     }
 
     virtual std::set<Stmt*> getResult() {
@@ -300,11 +300,6 @@ public:
 
     virtual bool TraverseImplicitCastExpr(ImplicitCastExpr *ICE) {
         const QualType ConstCharP = ctxt->getPointerType(ctxt->getConstType(ctxt->CharTy));
-        /*llvm::errs() << "checking:\n";
-        ICE->dump();
-        start_stmt->dump();
-        ICE->getType()->dump();
-        ConstCharP->dump();*/
         if (ctxt->hasSameType(ICE->getType(), ConstCharP)) {
             Expr *E1 = stripParenAndCast(ICE);
             if (llvm::isa<StringLiteral>(E1)) {
