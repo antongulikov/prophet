@@ -530,6 +530,7 @@ BenchProgram::TestCaseSetTy BenchProgram::testSet(const std::string &subDir,
 
     // Prepare test script to generate test result
     std::string cmd;
+    fprintf(stderr, "start testing");
     if (!pass_basic_src_dir)
         cmd = test_cmd + " " + getFullPath(work_dir + "/" + subDir) + " " + test_dir + " " + work_dir + " ";
     else
@@ -556,6 +557,8 @@ BenchProgram::TestCaseSetTy BenchProgram::testSet(const std::string &subDir,
     else {
         res = execute_with_timeout(cmd.c_str(), case_timeout);
     }
+
+    fprintf(stderr, "finished testing");
 
     std::set<unsigned long> ret;
     ret.clear();

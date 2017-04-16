@@ -1153,6 +1153,8 @@ public:
     }
 
     std::vector<RepairCandidate> run() {
+        std::ostringstream sout;
+        sout << "Start generating" << " \n";
         TraverseDecl(ctxt->getTranslationUnitDecl());
         return q;
     }

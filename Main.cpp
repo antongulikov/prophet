@@ -191,6 +191,11 @@ int main(int argc, char* argv[]) {
         learning = true;
     }
 
+    if (learning)
+        fprintf(stderr, "with learning");
+    else
+        fprintf(stderr, "without learnign");
+
     // RepairSearchEngine class making
     RepairSearchEngine E(*P, L, NaiveRepair.getValue(), learning, FP);
     if (!ConsiderAll.getValue())

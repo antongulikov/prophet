@@ -149,6 +149,7 @@ int RepairSearchEngine::run(const std::string &out_file, size_t try_at_least,
         outlog_printf(1, "Processing %s\n", file.c_str());
 
         std::string code = M.getSourceCode(file);
+        fprintf(stderr, code.c_str());
         clang::ASTContext *ctxt = M.getSourceContext(file);
 
         std::map<SourcePositionTy, Stmt*> res =
