@@ -247,10 +247,8 @@ ProfileErrorLocalizer::ProfileErrorLocalizer(BenchProgram &P,
     if (skip_build) { /* If we value of skip_build true: */
         /* We already have "profile" clone of "src", so just add it into map. */
         P.addExistingSrcClone("profile", true);
-        fprintf(stderr, "skip_build\n");
     } else { /* Else just build it. */
         /* Making a clone of src. */
-        fprintf(stderr, "non skip\n");
         P.clearSrcClone("profile");
         P.createSrcClone("profile");
 
