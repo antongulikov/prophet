@@ -134,8 +134,8 @@ class AtomReplaceVisitor : public RecursiveASTVisitor<AtomReplaceVisitor> {
                 ret.push_back(UO);
             }
         }
-        if (QT->isIntegerType())
-            generateAdditionBinaryExpression(L, ret);
+        /*if (QT->isIntegerType())
+            generateAdditionBinaryExpression(L, ret);*/
         return ret;
     }
 
@@ -152,14 +152,7 @@ public:
             exprs.push_back(getNewIntegerLiteral(ctxt, 0));
             ExprListTy tmp = secondOrderExprs(L, IL->getType());
             exprs.insert(exprs.end(), tmp.begin(), tmp.end());
-            for (size_t i = 0; i < exprs.size(); i++) {
-                StmtReplacer R(ctxt, start_stmt);
-                Expr *newE = getParenExpr(ctxt, exprs[i]);
-                R.addRule(IL, newE);
-                Stmt* S = R.getResult();
-                res.insert(S);
-                resRExpr[S] = std::make_pair(IL, newE);
-            }
+            addDeps(exprs, ctxt, start_stmt, IL);
         }
         return true;
     }
@@ -171,14 +164,7 @@ public:
             exprs.push_back(getNewIntegerLiteral(ctxt, 0));
             ExprListTy tmp = secondOrderExprs(L, SL->getType());
             exprs.insert(exprs.end(), tmp.begin(), tmp.end());
-            for (size_t i = 0; i < exprs.size(); i++) {
-                StmtReplacer R(ctxt, start_stmt);
-                Expr *newE = getParenExpr(ctxt, exprs[i]);
-                R.addRule(SL, newE);
-                Stmt* S = R.getResult();
-                res.insert(S);
-                resRExpr[S] = std::make_pair(SL, newE);
-            }
+            addDeps(exprs, ctxt, start_stmt, SL);
         }
         return true;
     }
@@ -193,14 +179,7 @@ public:
                 ExprListTy tmp = secondOrderExprs(L, VD->getType());
                 exprs.insert(exprs.end(), tmp.begin(), tmp.end());
             }
-            for (size_t i = 0; i < exprs.size(); i ++) {
-                StmtReplacer R(ctxt, start_stmt);
-                Expr *newE = getParenExpr(ctxt, exprs[i]);
-                R.addRule(DRE, newE);
-                Stmt* S = R.getResult();
-                res.insert(S);
-                resRExpr[S] = std::make_pair(DRE, newE);
-            }
+            addDeps(exprs, ctxt, start_stmt, DRE);
         }
         // If this is a vardecl with pointer type, we are going to replace it with
         // other choice
@@ -212,16 +191,7 @@ public:
                     ExprListTy tmp = secondOrderExprs(L, VD->getType());
                     exprs.insert(exprs.end(), tmp.begin(), tmp.end());
                 }
-                if (exprs.size() != 0) {
-                    for (size_t i = 0; i < exprs.size(); i++) {
-                        StmtReplacer R(ctxt, start_stmt);
-                        Expr *newE = getParenExpr(ctxt, exprs[i]);
-                        R.addRule(DRE, newE);
-                        Stmt *S = R.getResult();
-                        res.insert(S);
-                        resRExpr[S] = std::make_pair(DRE, newE);
-                    }
-                }
+                addDeps(exprs, ctxt, start_stmt, DRE);
             }
         }
         return true;
@@ -237,14 +207,7 @@ public:
                 exprs.push_back(getNewIntegerLiteral(ctxt, 0));
                 ExprListTy tmp = secondOrderExprs(L, UO->getType());
                 exprs.insert(exprs.end(), tmp.begin(), tmp.end());
-                for (size_t i = 0; i < exprs.size(); i++) {
-                    StmtReplacer R(ctxt, start_stmt);
-                    Expr *newE = getParenExpr(ctxt, exprs[i]);
-                    R.addRule(UO, newE);
-                    Stmt* S = R.getResult();
-                    res.insert(S);
-                    resRExpr[S] = std::make_pair(UO, newE);
-                }
+                addDeps(exprs, ctxt, start_stmt, UO);
             }
             return true;
         }
@@ -257,47 +220,19 @@ public:
         Expr* RHS = n->getRHS();
         if (isIntegerConstant(RHS)) {
             ExprListTy exprs = L->getCandidateConstantInType(RHS->getType());
-            for (size_t i = 0; i < exprs.size(); i++) {
-                StmtReplacer R(ctxt, start_stmt);
-                Expr *newE = getParenExpr(ctxt, exprs[i]);
-                R.addRule(RHS, newE);
-                Stmt *S = R.getResult();
-                res.insert(S);
-                resRExpr[S] = std::make_pair(RHS, newE);
-            }
+            addDeps(exprs, ctxt, start_stmt, RHS);
         }
         QualType QT = RHS->getType();
         ExprListTy exprs = L->getCandidateLocalVars(QT);
-        if (exprs.size() != 0) {
-            for (size_t i = 0; i < exprs.size(); i++) {
-                StmtReplacer R(ctxt, start_stmt);
-                Expr *newE = getParenExpr(ctxt, exprs[i]);
-                R.addRule(RHS, newE);
-                Stmt *S = R.getResult();
-                res.insert(S);
-                resRExpr[S] = std::make_pair(RHS, newE);
-            }
-        }
+        addDeps(exprs, ctxt, start_stmt, RHS);
         if (QT->isIntegerType()) {
             exprs = L->getCandidateConstantInType(QT);
-            for (size_t i = 0; i < exprs.size(); i++) {
-                StmtReplacer R(ctxt, start_stmt);
-                Expr *newE = getParenExpr(ctxt, exprs[i]);
-                R.addRule(RHS, newE);
-                Stmt *S = R.getResult();
-                res.insert(S);
-                resRExpr[S] = std::make_pair(RHS, newE);
-            }
+            addDeps(exprs, ctxt, start_stmt, RHS);
         }
+        ExprListTy right_stmt = secondOrderExprs(L, QT);
         exprs = L->getNonDeclareVars();
-        for (size_t i = 0; i < exprs.size(); i++) {
-            StmtReplacer R(ctxt, start_stmt);
-            Expr *newE = getParenExpr(ctxt, exprs[i]);
-            R.addRule(RHS, newE);
-            Stmt *S = R.getResult();
-            res.insert(S);
-            resRExpr[S] = std::make_pair(RHS, newE);
-        }
+        addDeps(exprs, ctxt, start_stmt, RHS);
+        addDeps(right_stmt, ctxt, start_stmt, RHS);
         bool temp_ret = TraverseStmt(RHS);
         Expr *LHS = n->getLHS();
         for (size_t i = 0; i < exprs.size(); ++i) {
@@ -320,6 +255,19 @@ public:
 
     Expr* getNewRExpr(Stmt *S) {
         return resRExpr[S].second;
+    }
+
+private:
+
+    void addDeps(const ExprListTy& exprs, ASTContext *ctxt, clang::Stmt *start_stmt, clang::Expr* prev_expr) {
+        for (size_t i = 0; i < exprs.size(); i++) {
+            StmtReplacer R(ctxt, start_stmt);
+            Expr *newE = getParenExpr(ctxt, exprs[i]);
+            R.addRule(prev_expr, newE);
+            Stmt *S = R.getResult();
+            res.insert(S);
+            resRExpr[S] = std::make_pair(prev_expr, newE);
+        }
     }
 };
 

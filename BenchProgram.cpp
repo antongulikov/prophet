@@ -541,7 +541,11 @@ BenchProgram::TestCaseSetTy BenchProgram::testSet(const std::string &subDir,
     sout <<  " > __res\n";
     cmd = sout.str();
 
-    int res = 0;
+    fprintf(stderr, cmd.c_str());
+
+
+
+    int res;
 
     pushEnvMap(env_pairs);
     /*for (std::map<std::string, std::string>::const_iterator it = env_pairs.begin();
