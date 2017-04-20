@@ -46,6 +46,34 @@ class AtomReplaceVisitor : public RecursiveASTVisitor<AtomReplaceVisitor> {
     std::map<clang::Stmt*, std::pair<Expr*, Expr*> > resRExpr;
     bool replace_ext;
 
+    /*
+     * generateAdditionBinaryExpression: generates secondOrderExprs for non declare variables
+     */
+    ExprListTy generateAdditionBinaryExpression(LocalAnalyzer *L, ExprListTy &result) {
+        const int op_kind_size = 5;
+        const BinaryOperatorKind op_kind[op_kind_size] = {BO_Add, BO_Sub, BO_Mul, BO_EQ, BO_NE};
+        ExprListTy non_declare_vars = L->getNonDeclareVars();
+        for (size_t i = 0; i < non_declare_vars.size(); ++i) {
+            Expr* left_expression = non_declare_vars[i];
+            if (!left_expression->getType()->isIntegerType())
+                continue;
+            for (size_t j = 0; j < non_declare_vars.size(); ++j) {
+                if (i == j)
+                    continue;
+                Expr * right_expression = non_declare_vars[j];
+                if (left_expression->getType() != right_expression->getType())
+                    continue;
+
+                for (int op_kind_index = 0; op_kind_index < op_kind_size; op_kind_index++) {
+                    BinaryOperator *BO = new(*ctxt) BinaryOperator(left_expression, right_expression,
+                                                                   op_kind[op_kind_index], left_expression->getType(),
+                                                                   VK_RValue, OK_Ordinary, SourceLocation(), false);
+                    result.push_back(BO);
+                }
+            }
+        }
+    }
+
     ExprListTy secondOrderExprs(LocalAnalyzer *L, QualType QT) {
         ExprListTy ret;
         ret.clear();
@@ -106,6 +134,8 @@ class AtomReplaceVisitor : public RecursiveASTVisitor<AtomReplaceVisitor> {
                 ret.push_back(UO);
             }
         }
+        if (QT->isIntegerType())
+            generateAdditionBinaryExpression(L, ret);
         return ret;
     }
 
@@ -259,7 +289,7 @@ public:
                 resRExpr[S] = std::make_pair(RHS, newE);
             }
         }
-        exprs = L->getHarlemShake();
+        exprs = L->getNonDeclareVars();
         for (size_t i = 0; i < exprs.size(); i++) {
             StmtReplacer R(ctxt, start_stmt);
             Expr *newE = getParenExpr(ctxt, exprs[i]);

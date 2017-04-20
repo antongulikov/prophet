@@ -683,7 +683,7 @@ std::set<Expr*> LocalAnalyzer::getGlobalCandidateExprs() {
         res.insert(llvm::dyn_cast<Expr>(duplicateStmt(ctxt, *it)));
     return res;
 }
-ExprListTy LocalAnalyzer::getHarlemShake(){
+ExprListTy LocalAnalyzer::getNonDeclareVars(){
     std::set<Expr*> exprs = G->getEndsExprs();
     ExprListTy ret;
     ret.clear();

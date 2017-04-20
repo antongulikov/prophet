@@ -116,7 +116,7 @@ public:
 
     ExprListTy getCandidatePointerForMemset(size_t max_dis);
 
-    ExprListTy getHarlemShake();
+    ExprListTy getNonDeclareVars();
 
     size_t getExprDistance(clang::Expr *E, size_t line_number);
 
