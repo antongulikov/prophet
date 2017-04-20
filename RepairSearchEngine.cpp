@@ -106,6 +106,8 @@ int RepairSearchEngine::run(const std::string &out_file, size_t try_at_least,
     remaining_locs.clear();
     loc_rank_map.clear();
 
+    outlog_printf(1, "%d\n", all_locs.size());
+
     // take loc_limit locs from all_locs (but not headers) with files and loc_rank_map
     {
         std::set<std::string> tmp;

@@ -225,8 +225,8 @@ double compute_b_score_exp2(const std::vector<double> &b) {
  * Computing score for loc's localizer ranging.
  */
 double compute_score(const TmpInfoTy &n, const TmpInfoTy &p, double negs, double poss) {
-    double NEG = (((double) n.execution_cnt) / negs) + compute_b_score_exp2(n.beforeend_cnts);
-    double POS = (((double) p.execution_cnt) / poss) + compute_b_score_exp2(p.beforeend_cnts);
+    double NEG = (((double) n.execution_cnt) / negs) + compute_b_score_exp(n.beforeend_cnts);
+    double POS = (((double) p.execution_cnt) / poss) + compute_b_score_exp(p.beforeend_cnts);
     return NEG - POS;
 }
 
@@ -247,8 +247,10 @@ ProfileErrorLocalizer::ProfileErrorLocalizer(BenchProgram &P,
     if (skip_build) { /* If we value of skip_build true: */
         /* We already have "profile" clone of "src", so just add it into map. */
         P.addExistingSrcClone("profile", true);
+        fprintf(stderr, "skip_build\n");
     } else { /* Else just build it. */
         /* Making a clone of src. */
+        fprintf(stderr, "non skip\n");
         P.clearSrcClone("profile");
         P.createSrcClone("profile");
 
@@ -304,6 +306,7 @@ ProfileErrorLocalizer::ProfileErrorLocalizer(BenchProgram &P,
 
         /* Iterate though profile loc map. */
         for (ProfileLocationMapTy::iterator iit = res.begin(); iit != res.end(); ++iit) {
+            fprintf(stderr, "Negative\n");
             if (negative_mark.count(iit->first) != 0) { /* If already in map - inc. */
                 negative_mark[iit->first].execution_cnt++;
             } else { /* Else - initial profile info. */
@@ -329,7 +332,7 @@ ProfileErrorLocalizer::ProfileErrorLocalizer(BenchProgram &P,
 
     /* Pos count. */
     cnt = 0;
-    for (TestCaseSetTy::const_iterator it = positive_cases.lower_bound(min_neg - (limit / 2));
+    for (TestCaseSetTy::const_iterator it = positive_cases.begin();
          it != positive_cases.end(); ++it) {
         /* Break if reach limit. */
         if (cnt >= limit) break;
@@ -378,7 +381,7 @@ ProfileErrorLocalizer::ProfileErrorLocalizer(BenchProgram &P,
         interestingLocs = negative_mark;
     } else {
         for (TmpLocationMapTy::iterator it = negative_mark.begin(); it != negative_mark.end(); ++it) {
-            if (bugged_files.count(it->first.expFilename) == 1) {
+            if (true) {
                 interestingLocs.insert(std::make_pair(it->first, it->second));
             }
         }
@@ -389,6 +392,7 @@ ProfileErrorLocalizer::ProfileErrorLocalizer(BenchProgram &P,
 
     for (TmpLocationMapTy::iterator it = interestingLocs.begin(); it != interestingLocs.end(); ++it) {
         /* Skip if header. */
+        outlog_printf(1, "%s\n", it->first.expFilename.c_str());
         if (isSystemHeader(it->first.expFilename)) {
             continue;
         }
@@ -404,6 +408,7 @@ ProfileErrorLocalizer::ProfileErrorLocalizer(BenchProgram &P,
         } else {
             p = positive_mark[it->first];
         }
+        fprintf(stderr, "push\n");
         Q.push(std::make_pair(compute_score(it->second, p, negs, poss), std::make_pair(it->first, it->second.pid)));
 
         /* Size < LOC_LIMIT. */
@@ -413,25 +418,18 @@ ProfileErrorLocalizer::ProfileErrorLocalizer(BenchProgram &P,
     /* Printf. Need to be deleted. //TODO */
     outlog_printf(1, "negs: %lf poss: %lf\n", negs, poss);
 
+    fprintf(stderr, "%d\n", (int)Q.size());
     /* Get result. */
-    while (Q.size() > 0) {
+    while ((int)Q.size() > 0) {
+        fprintf(stderr, "Herer\n");
         ResRecordTy tmp;
         tmp.score = Q.top().first;
         tmp.loc = Q.top().second.first;
         tmp.pid = Q.top().second.second;
+        outlog_printf(1, "%d\n", tmp.score);
 
-        if (tmp.score > TRASHOLD) {
-            bool exists = false;
-            for (size_t i = 0; i < candidateResults.size(); ++i) {
-                if (candidateResults.at(i) == tmp) {
-                    exists = true;
-                    break;
-                }
-            }
-            if (!exists) {
-                candidateResults.push_back(tmp);
-            }
-        }
+        outlog_printf(1, "add\n");
+        candidateResults.push_back(tmp);
 
         /* Delet. */
         Q.pop();

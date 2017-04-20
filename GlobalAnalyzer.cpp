@@ -32,6 +32,7 @@ class CandidateExprFinder : public RecursiveASTVisitor<CandidateExprFinder> {
     std::set<Expr*> &expr_set;
     std::set<Stmt*> &macro_set;
     std::set<Stmt*> &ifstmt_set;
+    std::set<Expr*> &ends_set;
     bool in_macro;
 
     // break a=b=c=0
@@ -48,6 +49,25 @@ class CandidateExprFinder : public RecursiveASTVisitor<CandidateExprFinder> {
         return V;
     }
 
+    bool generateAdditionAssignExpr(BinaryOperator *BO) {
+        if (!BO)
+            return false;
+        Expr *RHS = BO->getRHS();
+        Expr *LHS = BO->getLHS();
+        BinaryOperator *RBO = llvm::dyn_cast<BinaryOperator>(RHS);
+        BinaryOperator *LBO = llvm::dyn_cast<BinaryOperator>(LHS);
+        if (RBO)
+            generateAdditionAssignExpr(RBO);
+        else {
+            ends_set.insert(RHS);
+        }
+        if (LBO)
+            generateAdditionAssignExpr(LBO);
+        else {
+            ends_set.insert(LHS);
+        }
+    }
+
     void check(Expr* E) {
         if (llvm::isa<CallExpr>(E)) {
             expr_set.insert(E);
@@ -56,6 +76,7 @@ class CandidateExprFinder : public RecursiveASTVisitor<CandidateExprFinder> {
         if (!in_macro) {
             if (llvm::isa<BinaryOperator>(E)) {
                 BinaryOperator *BO = llvm::dyn_cast<BinaryOperator>(E);
+                generateAdditionAssignExpr(BO);
                 if (BO->getOpcode() == BO_Assign) {
                     // If this is a a=b=c=0, we are going to break it down
                     std::vector<BinaryOperator*> exprs;
@@ -86,11 +107,12 @@ class CandidateExprFinder : public RecursiveASTVisitor<CandidateExprFinder> {
 
 public:
     CandidateExprFinder(ASTContext &C, std::set<Expr*> &expr_set, std::set<Stmt*> &macro_set,
-            std::set<Stmt*> &ifstmt_set):
-    C(C), expr_set(expr_set), macro_set(macro_set), ifstmt_set(ifstmt_set) {
+            std::set<Stmt*> &ifstmt_set, std::set<Expr*> &ends_set):
+    C(C), expr_set(expr_set), macro_set(macro_set), ifstmt_set(ifstmt_set), ends_set(ends_set) {
         expr_set.clear();
         macro_set.clear();
         ifstmt_set.clear();
+        ends_set.clear();
         in_macro = false;
     }
 
@@ -195,10 +217,10 @@ GlobalAnalyzer::GlobalAnalyzer(ASTContext &C, const std::string &filename): C(C)
     CandidateExprs.clear();
     CandidateMacroExps.clear();
     CandidateIfStmts.clear();
-    CandidateExprFinder V(C, CandidateExprs, CandidateMacroExps, CandidateIfStmts);
-    V.TraverseDecl(C.getTranslationUnitDecl());
-
     GlobalVarDecls.clear();
+    EndsExprs.clear();
+    CandidateExprFinder V(C, CandidateExprs, CandidateMacroExps, CandidateIfStmts, EndsExprs);
+    V.TraverseDecl(C.getTranslationUnitDecl());
     FuncDecls.clear();
     TranslationUnitDecl *TransUnit = C.getTranslationUnitDecl();
     for (DeclContext::decl_iterator it = TransUnit->decls_begin(); it != TransUnit->decls_end(); ++it) {

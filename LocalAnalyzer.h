@@ -116,6 +116,8 @@ public:
 
     ExprListTy getCandidatePointerForMemset(size_t max_dis);
 
+    ExprListTy getHarlemShake();
+
     size_t getExprDistance(clang::Expr *E, size_t line_number);
 
     size_t getExprDistance(clang::Expr *E, clang::Stmt* S);

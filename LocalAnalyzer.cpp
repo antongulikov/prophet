@@ -19,6 +19,7 @@
 #include "GlobalAnalyzer.h"
 #include "clang/AST/RecursiveASTVisitor.h"
 #include "ASTUtils.h"
+#include "RepairSearchEngine.h"
 #include <map>
 
 using namespace clang;
@@ -256,6 +257,7 @@ ctxt(ctxt), loc(loc), G(G), curFunc(NULL), LocalVarDecls(), MemberStems(), naive
     IntegerConstants.clear();
     // We start with 0 by default
     IntegerConstants.insert(0);
+    IntegerConstants.insert(1);
     IntegerConstantVisitor visitor5(ctxt, IntegerConstants);
     visitor5.TraverseFunctionDecl(curFunc);
 
@@ -681,7 +683,15 @@ std::set<Expr*> LocalAnalyzer::getGlobalCandidateExprs() {
         res.insert(llvm::dyn_cast<Expr>(duplicateStmt(ctxt, *it)));
     return res;
 }
-
+ExprListTy LocalAnalyzer::getHarlemShake(){
+    std::set<Expr*> exprs = G->getEndsExprs();
+    ExprListTy ret;
+    ret.clear();
+    for (std::set<Expr*>::iterator it = exprs.begin(); it != exprs.end(); ++it) {
+        ret.push_back(*it);
+    }
+    return ret;
+}
 std::set<Stmt*> LocalAnalyzer::getGlobalCandidateIfStmts() {
     std::set<Stmt*> stmts = G->getCandidateIfStmts();
     std::set<Stmt*> res;

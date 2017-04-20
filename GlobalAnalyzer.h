@@ -38,6 +38,7 @@ class GlobalAnalyzer {
     std::set<clang::FunctionDecl*> FuncDecls;
     std::map<clang::EnumConstantDecl*, clang::EnumDecl*> EnumMap;
     std::set<clang::Expr*> CandidateExprs;
+    std::set<clang::Expr*> EndsExprs;
     std::set<clang::Stmt*> CandidateMacroExps;
     std::set<clang::Stmt*> CandidateIfStmts;
 
@@ -57,6 +58,10 @@ public:
 
     const std::set<clang::Expr*> & getCandidateExprs() {
         return CandidateExprs;
+    }
+
+    const std::set<clang::Expr*> & getEndsExprs() {
+        return EndsExprs;
     }
 
     const std::set<clang::Stmt*> & getCandidateMacroExps() {
