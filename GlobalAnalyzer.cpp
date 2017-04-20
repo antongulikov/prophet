@@ -49,6 +49,12 @@ class CandidateExprFinder : public RecursiveASTVisitor<CandidateExprFinder> {
         return V;
     }
 
+    bool isStringOrIntegerLiteral(Expr *test_expresiion) {
+        StringLiteral *SL = llvm::dyn_cast<StringLiteral>(test_expresiion);
+        IntegerLiteral *IL = llvm::dyn_cast<IntegerLiteral>(test_expresiion);
+        return (SL != nullptr || IL != nullptr);
+    }
+
     bool generateAdditionAssignExpr(BinaryOperator *BO) {
         if (!BO)
             return false;
@@ -59,12 +65,14 @@ class CandidateExprFinder : public RecursiveASTVisitor<CandidateExprFinder> {
         if (RBO)
             generateAdditionAssignExpr(RBO);
         else {
-            ends_set.insert(RHS);
+            if (not isStringOrIntegerLiteral(RHS))
+                ends_set.insert(RHS);
         }
         if (LBO)
             generateAdditionAssignExpr(LBO);
         else {
-            ends_set.insert(LHS);
+            if (not isStringOrIntegerLiteral(LHS))
+                ends_set.insert(LHS);
         }
     }
 
